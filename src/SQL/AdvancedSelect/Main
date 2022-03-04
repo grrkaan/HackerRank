@@ -1,0 +1,47 @@
+SELECT COMPANY.COMPANY_CODE,
+       COMPANY.FOUNDER,
+       COUNT(DISTINCT (LEAD_MANAGER.LEAD_MANAGER_CODE)),
+       COUNT(DISTINCT (SENIOR_MANAGER.SENIOR_MANAGER_CODE)),
+       COUNT(DISTINCT (MANAGER.MANAGER_CODE)),
+       COUNT(DISTINCT (EMPLOYEE.EMPLOYEE_CODE))
+FROM COMPANY
+         JOIN LEAD_MANAGER ON
+    LEAD_MANAGER.COMPANY_CODE = COMPANY.COMPANY_CODE
+         JOIN SENIOR_MANAGER ON
+    SENIOR_MANAGER.LEAD_MANAGER_CODE = LEAD_MANAGER.LEAD_MANAGER_CODE
+         JOIN MANAGER ON
+    MANAGER.SENIOR_MANAGER_CODE = SENIOR_MANAGER.SENIOR_MANAGER_CODE
+         JOIN EMPLOYEE ON
+    EMPLOYEE.MANAGER_CODE = MANAGER.MANAGER_CODE
+GROUP BY COMPANY_CODE, FOUNDER
+ORDER BY COMPANY_CODE;
+
+------------------------------------------------------------------------------------------------------------------------
+SELECT CASE
+           WHEN P IS NULL THEN CONCAT(N, ' Root')
+           WHEN N IN (SELECT DISTINCT P FROM BST) THEN CONCAT(N, ' Inner')
+           ELSE CONCAT(N, ' Leaf')
+           END
+FROM BST
+ORDER BY N ASC
+------------------------------------------------------------------------------------------------------------------------
+select concat(name, '(', substr(occupation,1,1), ')')
+from occupations
+order by name asc;
+
+select concat('There are a total of ', count(1), ' ' , lower(occupation), 's.')
+from occupations
+group by occupation
+order by count(1) asc, occupation asc;
+------------------------------------------------------------------------------------------------------------------------
+SELECT CASE
+           WHEN A + B > C AND B + C > A AND A + C > B THEN
+               CASE
+                   WHEN A = B AND B = C THEN 'Equilateral'
+                   WHEN A = B OR B = C OR A = C THEN 'Isosceles'
+                   ELSE 'Scalene'
+                   END
+           ELSE 'Not A Triangle'
+           END
+FROM TRIANGLES;
+------------------------------------------------------------------------------------------------------------------------
